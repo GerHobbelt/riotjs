@@ -19,7 +19,8 @@ describe("$.render", function() {
   it("Empty value", function() {
     assert.equal($.render("{x}", { x: undefined }), "");
     assert.equal($.render("{x}", { x: null }), "");
-    assert.equal($.render("{x}", { x: false }), "");
+    assert.equal($.render("{x}", { x: true }), "true");
+    assert.equal($.render("{x}", { x: false }), "false");
     assert.equal($.render("{x}", { x: 0 }), "0");
   });
 
@@ -46,15 +47,44 @@ describe("$.render", function() {
     });
   }
 
-  it("String-breaking characters", function() {
+  it("Newline characters", function() {
     assert.equal($.render("x\r"), "x\r");
     assert.equal($.render("x\n"), "x\n");
-    assert.equal($.render("x\u2028"), "x\u2028");
-    assert.equal($.render("x\u2029"), "x\u2029");
   });
 
   it("Backslashes", function() {
     assert.equal($.render("\\{x}", { x: 'x' }), "\\x");
+  });
+
+  it("Entities", function() {
+    assert.equal($.render("{x}", { x: '&' }), "&amp;");
+    assert.equal($.render("{x}", { x: '"' }), "&quot;");
+    assert.equal($.render("{x}", { x: '<' }), "&lt;");
+    assert.equal($.render("{x}", { x: '>' }), "&gt;");
+  });
+
+  it("Nested objects", function() {
+    assert.equal($.render("{x.y}", { x: { y: 'x' }}), "x");
+  });
+
+  it("Undefined properties", function() {
+    assert.equal($.render("{x}", {}), "");
+    assert.equal($.render("{x.y.z}", {}), "");
+  });
+
+  it('Can be set to not escape', function(){
+    var template = '{x}'
+    ,   data = {x: '<script>test</script>'}
+    ;
+    assert.equal($.render(template, data, false), '<script>test</script>');
+  });
+
+  it('Can be passed a custom escape function', function(){
+    var template = '{x}'
+    ,   data = {x: 'custom-replace-function'}
+    ,   escape_fn = function(text){ return text.replace(/-/g, '!')}
+    ;
+    assert.equal($.render(template, data, escape_fn), 'custom!replace!function');
   });
 
 });
