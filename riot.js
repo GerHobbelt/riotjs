@@ -1,5 +1,5 @@
 /* Riot v2.0.11, @license MIT, (c) 2015 Muut Inc. + contributors */
-
+define(function(require,exports,module){
 ;(function() {
 
   var riot = { version: 'v2.0.11', settings: {} }
@@ -818,3 +818,4 @@ riot.mountTo = riot.mount
     this.riot = riot
 
 })();
+});
