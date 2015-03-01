@@ -1,8 +1,7 @@
-/* Riot v2.0.11, @license MIT, (c) 2015 Muut Inc. + contributors */
-define(function(require,exports,module){
+/* Riot WIP, @license MIT, (c) 2015 Muut Inc. + contributors */
 ;(function() {
 
-  var riot = { version: 'v2.0.11', settings: {} }
+  var riot = { version: 'WIP', settings: {} }
 
   'use strict'
 
@@ -801,7 +800,7 @@ riot.update = function() {
 riot.mountTo = riot.mount
 
 
-  
+
   // share methods for other riot parts, e.g. compiler
   riot.util = { brackets: brackets, tmpl: tmpl }
 
@@ -813,9 +812,14 @@ riot.mountTo = riot.mount
   else if (typeof define === 'function' && define.amd)
     define(function() { return riot })
 
+  // support CMD
+  else if (typeof define === 'function' && define.cmd)
+    define(function(require, exports, module) {
+      module.exports = riot
+    })
+
   // support browser
   else
     this.riot = riot
 
 })();
-});

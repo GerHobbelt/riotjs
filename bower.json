@@ -1,12 +1,14 @@
 {
   "name": "riot",
-  "version": "2.0.11",
+  "version": "12.0.11",
   "description": "A React- like, 3.5K user interface library",
   "homepage": "https://muut.com/riotjs/",
   "repository": { "type": "git", "url": "git://github.com/muut/riotjs.git" },
   "authors": ["Muut, Inc. and other contributors"],
   "license": "MIT",
   "keywords": [
+    "seajs",
+    "cmd",
     "custom tags",
     "custom elements",
     "web components",
