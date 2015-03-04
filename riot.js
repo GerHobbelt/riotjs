@@ -1,8 +1,7 @@
-/* Riot v2.0.12, @license MIT, (c) 2015 Muut Inc. + contributors */
-
+/* Riot WIP, @license MIT, (c) 2015 Muut Inc. + contributors */
 ;(function() {
 
-  var riot = { version: 'v2.0.12', settings: {} }
+  var riot = { version: 'WIP', settings: {} }
 
   'use strict'
 
