@@ -17,7 +17,7 @@ Because it's widely used. According to [Net Market Share](http://www.netmarketsh
 Net Market Share stats count every user equally, while StatCounter gives extra weight to heavy web users.
 
 ### Is Riot free?
-Riot is free, open source and licensed under the MIT License.
+Riot is free, open source and licensed under the MIT License. Free from [Additional Grant of Patent Rights](https://github.com/facebook/react/blob/master/PATENTS).
 
 
 ### Can I use Riot in production?
@@ -39,8 +39,7 @@ The equality operator is good when you know how it works. We do this for example
 This causes `0` and `false` to be printed but `null` and `undefined` are printed as an empty string. Exactly what we want!
 
 
-### Can I use   // named elements
-`style` tags in a .tag file?
+### Can I use `style` tags in a .tag file?
 Yes. You can use CSS normally inside a tag. The web component standard also has a mechanism of encapsulating of CSS. However, it's unlikely that this improves the overall manageability of your CSS.
 
 
@@ -56,4 +55,7 @@ It's not evil, it only looks bad. To have JS and HTML under the same module is m
 Yes:
 
 1. Server side HTML generation and "isomorphic" applications
-2. Tag option validation using HTML attributes
+2. Full modules with CSS support
+3. Plugin system
+4. Tag option validation using HTML attributes
+

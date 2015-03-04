@@ -7,6 +7,8 @@ describe('Tmpl', function() {
         obj: {val: 2},
         arr: [2],
         x: 2,
+        $a: 0,
+        $b: 1,
         fn: function(s) { return ['hi', s].join(' ') }
       },
       render = function (str) {
@@ -19,13 +21,14 @@ describe('Tmpl', function() {
 
   it('compiles specs', function() {
 
-    expect(render('<div class="{'
-           + 'one: !no,'
-           + 'two: false || null || !no && yes,'
-           + '\'th_r-e3\': 4 > 2,'
-           + '\'four five\': fn(),'
-           + 'six: str == "x"'
-         + '}">')).to.equal('<div class="one two th_r-e3 four five six">')
+    expect(render('{ a: !no, b: yes }')).to.equal('a b')
+    expect(render("{ 'a b': yes }")).to.equal('a b')
+    expect(render('{ "a_b-c3": yes }')).to.equal('a_b-c3')
+    expect(render('{ y: false || null || !no && yes }')).to.equal('y')
+    expect(render('{ y: 4 > 2 }')).to.equal('y')
+    expect(render('{ y: fn() }')).to.equal('y')
+    expect(render('{ y: str == "x" }')).to.equal('y')
+    expect(render('{ y: new Date() }')).to.equal('y')
 
     expect(render('{ true ? "a b c" : "foo" }')).to.equal('a b c')
     expect(render('{ true ? "a \\"b\\" c" : "foo" }')).to.equal('a "b" c')
@@ -46,7 +49,6 @@ describe('Tmpl', function() {
     expect(render('\\{ 1 }')).to.equal('{ 1 }')
     expect(render('{ "\\}" }')).to.equal('}')
     expect(render('{ "\\{" }')).to.equal('{')
-
 
     expect(render('{ /* comment */ }')).to.be(undefined)
     expect(render(' { /* comment */ }')).to.equal(' ')
@@ -100,7 +102,8 @@ describe('Tmpl', function() {
 
     window.globalVar = 5
     expect(render('{ globalVar }')).to.equal(window.globalVar)
-    //expect(render('{ location.href.split(".").pop() }')).to.equal('html')
+
+    expect(render('{ !text }')).to.equal(true)
 
     data.esc = '\'\n\\'
     expect(render('{ esc }')).to.equal(data.esc)
@@ -109,6 +112,12 @@ describe('Tmpl', function() {
 
     expect(render('{ x }')).to.equal(2)
     expect(render('{ y: x }')).to.equal('y')
+
+    // expect(render('{ $a }')).to.equal(0)
+    // expect(render('{ $a + $b }')).to.equal(1)
+
+    // maybe / later:
+    //expect(render('{ JSON.stringify({ x: 5 }) }')).to.equal('{"x":5}')
 
   })
 
@@ -119,6 +128,10 @@ describe('Tmpl', function() {
     expect(render('[ str\\[0\\] ]')).to.equal('x')
     riot.settings.brackets = '<% %>'
     expect(render('<% x %>')).to.equal(2)
+    riot.settings.brackets = '${ }'
+    expect(render('${ x }')).to.equal(2)
+    riot.settings.brackets = null
+    expect(render('{ x }')).to.equal(2)
 
   })
 

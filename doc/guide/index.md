@@ -131,8 +131,7 @@ See [pre processors](/riotjs/compiler.html#pre-processors) for more details.
 
 ### Tag styling
 
-You can put   // named elements
-`style` tag inside. Riot.js automatically take it out and inject it into `<head>`.
+You can put `style` tag inside. Riot.js automatically take it out and inject it into `<head>`.
 
 ```html
 <todo>
@@ -143,7 +142,26 @@ You can put   // named elements
   <style>
     todo { display: block }
     todo h3 { font-size: 120% }
-    /** other awesome stylings **/
+    /** other tag specific styles **/
+  </style>
+
+</todo>
+```
+
+### Scoped CSS
+
+[Scoped CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/:scope) is also available. The example below is equivalent to the first one.
+
+```html
+<todo>
+
+  <!-- layout -->
+  <h3>{ opts.title }</h3>
+
+  <style scoped>
+    :scope { display: block }
+    h3 { font-size: 120% }
+    /** other tag specific styles **/
   </style>
 
 </todo>
@@ -365,8 +383,7 @@ When using [pre-compiler](compiler.html#pre-compilation) you'll have to set `bra
 
 ### Etc
 
-Expressions inside   // named elements
-`style` tags are ignored.
+Expressions inside `style` tags are ignored.
 
 
 ### Render unescaped HTML

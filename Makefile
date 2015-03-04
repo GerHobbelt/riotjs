@@ -11,13 +11,15 @@ WATCH = "\
 
 test:
 	@ make eslint
-	# run the mocha tests
-	@ RIOT=../dist/riot/riot.js ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- test/runner.js -R spec
+	# test the node compiler
+	@ ./node_modules/mocha/bin/_mocha test/runner.js -R spec
+	# test riot
+	@ ./node_modules/karma/bin/karma start test/karma.conf.js
 
 
 eslint:
 	# check code style
-	@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib
+	@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib test
 
 raw:
 	@ mkdir -p $(DIST)
@@ -35,7 +37,7 @@ min: riot
 
 perf: riot
 	# run the performance tests
-	@ node --expose-gc test/performance/mem
+	@ iojs --expose-gc test/performance/mem
 
 watch:
 	# watch and rebuild riot and its tests
