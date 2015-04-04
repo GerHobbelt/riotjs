@@ -1,4 +1,4 @@
-/* Riot 1.0.2, @license MIT, (c) 2014 Muut Inc + contributors */
+/* Riot 1.0.3, @license MIT, (c) 2014 Muut Inc + contributors */
 (function(riot) { "use strict";
 
 riot.observable = function(el) {
@@ -19,7 +19,7 @@ riot.observable = function(el) {
     else if (fn) {
       var arr = callbacks[events];
       for (var i = 0, cb; (cb = arr && arr[i]); ++i) {
-        if (cb === fn) arr.splice(i, 1);
+        if (cb === fn) { arr.splice(i, 1); i--; }
       }
     } else {
       events.replace(/[^\s]+/g, function(name) {
@@ -115,4 +115,15 @@ riot.render = function(tmpl, data, escape_fn) {
 
   };
 })();
-})(typeof window !== "undefined" ? window.riot = {} : exports);
+if (typeof exports === 'object') {
+  // CommonJS support
+  module.exports = riot;
+} else if (typeof define === 'function' && define.amd) {
+  // support AMD
+  define(function() { return riot; });
+} else {
+  // support browser
+  this.riot = riot;
+}
+
+})(typeof window !== "undefined" ? window : global);

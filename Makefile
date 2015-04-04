@@ -9,7 +9,8 @@ riot:
 	@ cat license.js > riot.js
 	@ echo '(function(riot) { "use strict";' >> riot.js
 	@ cat lib/{observable,render,route}.js >> riot.js
-	@ echo '})(typeof window !== "undefined" ? window.riot = {} : exports);' >> riot.js
+	@ cat loaders.js >> riot.js
+	@ echo '})(typeof window !== "undefined" ? window : global);' >> riot.js
 	@ # Build jquery
 	@ cat license.js > jquery.riot.js
 	@ echo '(function(riot) { "use strict";' >> jquery.riot.js

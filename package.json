@@ -1,18 +1,18 @@
 {
   "name": "riotjs",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "The 1kb MV* library for building modular web applications.",
   "keywords": [
     "MVP",
     "MVC",
     "framework",
-    "library"
+    "library",
+    "micro"
   ],
   "main": "riot.js",
   "directories": {
     "test": "test"
   },
-  "browserDependencies": {},
   "devDependencies": {
     "uglifyjs": "~2.3.6",
     "jshint": "~2.4.3",
@@ -29,8 +29,10 @@
     "type": "git",
     "url": "git://github.com/muut/riotjs.git"
   },
-  "author": "Tero Piirainen and other contributors",
-  "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "aee612dbaef2cb3f7bfe477218d04b1ec5c21513"
+  "bugs": {
+    "url": "https://github.com/muut/riotjs/issues"
+  },
+  "homepage": "https://muut.com/riotjs",
+  "author": "Tero Piirainen <tero@muut.com>",
+  "license": "MIT"
 }
