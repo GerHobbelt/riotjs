@@ -1,7 +1,7 @@
 
 describe("Observable", function() {
 
-  var el = $.observable({}),
+  var el = riot.observable({}),
     total = 11,
     count = 0;
 
@@ -101,7 +101,7 @@ describe("Observable", function() {
 
   it("does not call trigger infinitely", function() {
     var counter = 0,
-      otherEl = $.observable({});
+      otherEl = riot.observable({});
 
     el.on("update", function(value) {
       if (counter++ < 1) { // 2 calls are enough to know the test failed

@@ -7,14 +7,14 @@ jshint:
 riot:
 	@ # Build standalone
 	@ cat license.js > riot.js
-	@ echo '(function($$) { "use strict";' >> riot.js
+	@ echo '(function(riot) { "use strict";' >> riot.js
 	@ cat lib/{observable,render,route}.js >> riot.js
-	@ echo '})(typeof top == "object" ? window.$$ || (window.$$ = {}) : exports);' >> riot.js
+	@ echo '})(typeof top == "object" ? window.riot = {} : exports);' >> riot.js
 	@ # Build jquery
 	@ cat license.js > jquery.riot.js
-	@ echo '(function($$) { "use strict";' >> jquery.riot.js
+	@ echo '(function(riot) { "use strict";' >> jquery.riot.js
 	@ cat lib/{jquery.observable,render,route}.js >> jquery.riot.js
-	@ echo '})(typeof top == "object" ? window.$$ || (window.$$ = {}) : exports);' >> jquery.riot.js
+	@ echo '})(typeof top == "object" ? window.riot || (window.riot = {}) : exports);' >> jquery.riot.js
 	@ echo 'Done.'
 
 min: riot
