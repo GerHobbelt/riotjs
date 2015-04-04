@@ -18,8 +18,8 @@ riot:
 	@ echo 'Done.'
 
 min: riot
-	./node_modules/uglify-js/bin/uglifyjs riot.js --comments --mangle -o riot.min.js
-	./node_modules/uglify-js/bin/uglifyjs riot.js --comments --mangle -o jquery.riot.min.js
+	./node_modules/uglify-js/bin/uglifyjs riot.js        --comments --mangle -o riot.min.js --source-map=riot.min.js.map
+	./node_modules/uglify-js/bin/uglifyjs jquery.riot.js --comments --mangle -o jquery.riot.min.js --source-map=jquery.riot.min.js.map
 
 test: min
 	node test/node.js

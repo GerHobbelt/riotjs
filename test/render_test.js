@@ -50,6 +50,8 @@ describe("$.render", function() {
   it("Newline characters", function() {
     assert.equal($.render("x\r"), "x\r");
     assert.equal($.render("x\n"), "x\n");
+    assert.equal($.render("x\u2028", {}, true), "x\n");
+    assert.equal($.render("x\u2029", {}, true), "x\n");
   });
 
   it("Backslashes", function() {
@@ -57,10 +59,10 @@ describe("$.render", function() {
   });
 
   it("Entities", function() {
-    assert.equal($.render("{x}", { x: '&' }), "&amp;");
-    assert.equal($.render("{x}", { x: '"' }), "&quot;");
-    assert.equal($.render("{x}", { x: '<' }), "&lt;");
-    assert.equal($.render("{x}", { x: '>' }), "&gt;");
+    assert.equal($.render("{x}", { x: '&' }, true), "&amp;");
+    assert.equal($.render("{x}", { x: '"' }, true), "&quot;");
+    assert.equal($.render("{x}", { x: '<' }, true), "&lt;");
+    assert.equal($.render("{x}", { x: '>' }, true), "&gt;");
   });
 
   it("Nested objects", function() {
@@ -79,12 +81,19 @@ describe("$.render", function() {
     assert.equal($.render(template, data, false), '<script>test</script>');
   });
 
-  it('Can be passed a custom escape function', function(){
+  it('Custom escape function', function(){
     var template = '{x}'
     ,   data = {x: 'custom-replace-function'}
     ,   escape_fn = function(text){ return text.replace(/-/g, '!')}
     ;
     assert.equal($.render(template, data, escape_fn), 'custom!replace!function');
+  });
+
+  it('Custom escape function args', function(){
+    $.render('{x}', { x: 'foo'}, function(val, key) {
+      assert.equal(key, 'x');
+      assert.equal(val, 'foo');
+    });
   });
 
 });
