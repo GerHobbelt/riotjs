@@ -1,28 +1,25 @@
 
 <loop-manip>
 
-  <li each={ items }>
-    { title } <a onclick={ parent.remove }>remove</a>
+  <li each={ item, i in items }>
+    { item } <a onclick={ parent.remove }>remove</a>
   </li>
 
   <button onclick={ top }>Top</button>
   <button onclick={ bottom }>Bottom</button>
 
-  var self = this
+  this.items = [0,1,2,3,4,5]
 
-  this.items = [{ title: 'First' }, { title: 'Second' }]
-
-  bottom() {
-    this.items.push({ title: Math.random() })
+  bottom(e) {
+    this.items.push(100)
   }
 
   top() {
-    this.items.unshift({ title: Math.random() })
+    this.items.unshift(100)
   }
 
   remove(e) {
-    var i = self.items.indexOf(e.item)
-    self.items.splice(i, 1)
+    this.items.splice(e.item.i, 1)
   }
 
 </loop-manip>

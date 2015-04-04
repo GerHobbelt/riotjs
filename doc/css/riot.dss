@@ -2,6 +2,10 @@
 red = #fa0043
 hero_bg = #e6
 
+#fork-me
+  absolute 0 right 0
+  width 170px
+
 
 .riot-tag
   display inline-block
@@ -12,13 +16,16 @@ hero_bg = #e6
   border-radius 3px
   text-indent .02em
 
+
 #header-wrapper
   height 2.5em
   margin-bottom u4
 
+
 #riot-home
   #riot-logo, #muut-logo
     display none
+
 
 #riot-header
   padding u 0
@@ -49,20 +56,23 @@ hero_bg = #e6
 
 #hero
   font center
-  padding 4.5em u3 5.5em
-  margin -u6   0 u5
+  padding 4.5em u3 2em
+  margin -u6 0 u5
   bg hero_bg
 
   .riot-tag
     font 350%
 
-  .small
-    color #9
-    margin u
-    display block
+  .tease
+    margin-top u4
+    font 110%
 
-    &:hover
-      color #3
+    .tag
+      font 110% bold #f lowercase
+
+      &:hover
+        bg darkblue
+
 
   h1
     font 230% 100 uppercase
@@ -141,23 +151,36 @@ hero_bg = #e6
 
 #content
   %inline
-  max-width 680px
+  width 680px
   padding-bottom u8
 
   :first-child
     margin-top 0
+
+  h2[id], h3[id]
+    cursor pointer
+
+    &:hover
+      color #6
+      &:after
+        content " #"
+        font blue
 
 .tweets
   margin-top u4
   relative 0 -u3
 
   .wrap
-    padding 0 0 0 u2
+    padding 0 0 0 u3
     border-left uh solid #d
 
+  .block
+    padding 0
+    margin u5 0
+
   p
-    font 120% italic #6
-    margin u 0
+    font 120% / 1.2 italic #6
+    margin u2 0
 
   a
     font 80%
@@ -189,7 +212,7 @@ hero_bg = #e6
   #burger
     display inline
 
-  #to-top
+  #to-top, #fork-me
     display none
 
   #toc
@@ -220,7 +243,8 @@ hero_bg = #e6
   #content
     display block
     margin 0 auto
-
+    max-width 680px
+    width auto
 
 #riot-forum
   .muut
@@ -240,3 +264,10 @@ hero_bg = #e6
   .m-navi
     display none
 
+#riot-releases
+  .hgroup
+    margin-bottom u3
+
+  h3 em
+    font 70% #7
+    margin-left u

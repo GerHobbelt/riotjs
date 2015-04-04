@@ -1,22 +1,26 @@
 
-title: Compare
+title: Riot vs React vs Polymer
+subtitle: Compare
 description: How Riot differs from React and Polymer
 
 ====
 
 # React
+
 Riot 2.0 is inspired by React and from the idea of "cohesion". According to Facebook developers:
 
 > "Templates separate technologies, not concerns."
 
-We totally respect you guys from this important insight. By combining these JavaScript and HTML together under the view becomes cleaner.
+We should be building reusable components instead of templates. By separating logic from the templates we are actually keeping out things that should be together.
 
-React worked us well, and we still use it on our [Disqus Impoter](/importer/) but we were bothered about the syntax and size of React. We started thinking whether it could be simpler; both the internally and for the user. Especially the verbose syntax bothered us.
+By combining these related technologies together under the same component the system becomes cleaner. We respect React because of this important insight.
+
+React worked well for us, and we still use it in our [Disqus Importer](/importer/) but we were bothered by the syntax and size of React (*especially* the syntax). We started thinking it could be simpler; both internally and for the user.
 
 
 ### React syntax
 
-Following example taken directly from React home page:
+The following example was taken directly from the React home page:
 
 
 ```
@@ -58,7 +62,7 @@ var TodoApp = React.createClass({
 React.render(<TodoApp />, mountNode);
 ```
 
-JSX is a mixture of HTML and JavaScript. You can include HTML anywhere on the component; inside methods and on property assignments.
+JSX is mixture of HTML and JavaScript. You can include HTML anywhere on the component; inside methods and in property assignments.
 
 
 ### Riot syntax
@@ -93,12 +97,12 @@ And this is how the above tag is mounted on a page:
 ```
 <todo></todo>
 
-&lt;script>riot.mount('todo')</script>
+<script>riot.mount('todo')</script>
 ```
 
 ### Same, but different
 
-In Riot HTML comes first and JavaScript second. Both are under the same component, but neatly separated from each other. The HTML can mixed with JavaScript expressions.
+In Riot HTML comes first and JavaScript second. Both are under the same component, but neatly separated from each other. The HTML can be mixed with JavaScript expressions.
 
 No proprietary stuff, except the notation of enclosing expressions inside curly brackets.
 
@@ -111,11 +115,11 @@ We think Riot syntax is the cleanest way to separate layout and logic while enjo
 
 When a component is initialized React parses a string and Riot traverses a DOM tree.
 
-Riot takes the expressions from the tree and on each run these expressions are evaluated and compared to the values on the DOM. When a value has changed the corresponding DOM node is updated.
+Riot takes the expressions from the tree and stores them to an array. Each expression has a pointer to a DOM node. On each run these expressions are evaluated and compared to the values on the DOM. When a value has changed the corresponding DOM node is updated. In a way Riot also has a virtual DOM, just a much simpler one.
 
-Since these expressions can be cached an update cycle is fast. Going trough 100 or 1000 expressions usually takes 1ms or less.
+Since these expressions can be cached an update cycle is fast. Going through 100 or 1000 expressions usually takes 1ms or less.
 
-React sync algorithm is much more complex since the HTML layout can change randomly after each update. Given the enormous challenge, Facebook developers did an impressive job with it.
+The React sync algorithm is much more complex since the HTML layout can change randomly after each update. Given the enormous challenge, Facebook developers did an impressive job with it.
 
 We saw that the complex diffing can be avoided.
 
@@ -124,43 +128,43 @@ In Riot the HTML structure is fixed. Only loops and conditionals can add and rem
 
 ### Flux and routing
 
-React deals with UI only, which is a good thing. All great software projects has a laser sharp focus.
+React deals with the UI only, which is a good thing. All great software projects have a sharp focus.
 
-Facebook recommends to use [Flux](http://facebook.github.io/flux/docs/overview.html) to structure the client-side code. It's more of a pattern that a framework and is packed with great ideas.
+Facebook recommends to use [Flux](http://facebook.github.io/flux/docs/overview.html) to structure the client-side code. It's more of a pattern than a framework and is packed with great ideas.
 
-Riot comes bundled with custom tags, an event emitter (observable) and router. We believe that these are the fundamental building blocks client side applications. Events bring modularity, router takes care of URL and the back button and custom tags take care of the user interface.
+Riot comes bundled with custom tags, an event emitter (observable) and router. We believe that these are the fundamental building blocks of client side applications. Events bring modularity, a router takes care of the URL and the back button and custom tags take care of the user interface.
 
-Just like Flux, Riot is flexible and leaves the bigger architectural decisions for the developer. It's just a library to help you to achieve the goal.
+Just like Flux, Riot is flexible and leaves the bigger architectural decisions for the developer. It's just a library to help you achieve the goal.
 
-You can build a Flux- like system by using Riot's observable and router. Or you can use some ready made Flux implementation together with Riot.
+You can build a Flux-like system by using Riot's observable and router. In fact such thing [already exists](https://github.com/jimsparkman/RiotControl).
 
 
 ### 24x - 128x bigger
 
 React is 24x bigger than Riot.
 
-<small><em>react.min.js</em> – 127K</small>
+<small><em>react.min.js</em> – 127KB</small>
 <span class="bar red"></span>
 
-<small><em>riot.min.js</em> – 5.4K</small>
-<span class="bar blue" style="width: 4.3%"></span>
+<small><em>riot.min.js</em> – 6.7KB</small>
+<span class="bar blue" style="width: 4.8%"></span>
 
 <br>
 
 The recommended React router is 128x larger than Riot router.
 
-<small><em>react-router.min.js</em> – 54.9K</small>
+<small><em>react-router.min.js</em> – 54.9KB</small>
 <span class="bar red"></span>
 
-<small><em>react-mini-router.min.js</em> – 8.6K</small>
+<small><em>react-mini-router.min.js</em> – 8.6KB</small>
 <span class="bar red" style="width: 15.6%"></span>
 
-<small><em>riot.router.min.js</em> – 0.43K</small>
+<small><em>riot.router.min.js</em> – 0.43KB</small>
 <span class="bar blue" style="width: 0.7%"></span>
 
 Admittedly this router comparison is a bit unfair because [react-router](https://github.com/rackt/react-router) has a lot more features. But the above chart clearly highlights the goal of Riot: to provide the most minimalistic API for the job.
 
-React ecosystem is more frameworky and favors larger API surfaces. The bigger alternative is more popular than [react-mini-router](https://github.com/larrymyers/react-mini-router) on the React community.
+The React ecosystem is more frameworky and favors larger API surfaces. The bigger alternative is more popular than [react-mini-router](https://github.com/larrymyers/react-mini-router) in the React community.
 
 
 # Polymer
@@ -169,25 +173,25 @@ Polymer takes the Web Component standard and makes it available for the latest b
 
 Conceptually Riot is the same thing but there are differences:
 
-1. Riot uses virtual DOM and only the elements that have changed are updated causing less expensive DOM operations.
+1. Riot updates only the elements that have changed resulting to less DOM operations.
 
-2. The standard syntax is more verbose and needs more books to study. And Polymer adds some of it's own syntax to the stack.
+2. Polymer syntax is more complex and requires one to study more books.
 
 3. Individual components are imported with HTML `link rel="import"`. Polyfills must resort to queued up XHRs, which makes it painfully slow. Riot tags are imported with `script src` and multiple tags can be combined with regular tooling.
 
 4. Polymer uses two-way data binding while riot uses one-way data binding.
 
-5. No ability to perform server side rendering, which will be part of Riot on an upcoming version.
+5. No ability to perform server side rendering, which will be part of Riot in an upcoming version.
 
 
 ### 22x bigger
 
 Polymer (v0.5.2) is 22x bigger than Riot
 
-<small><em>polymer.min.js</em> – 120K</small>
+<small><em>polymer.min.js</em> – 120KB</small>
 <span class="bar red"></span>
 
-<small><em>riot.min.js</em> – 5.4K</small>
+<small><em>riot.min.js</em> – 6.7KB</small>
 <span class="bar blue" style="width: 4.5%"></span>
 
 Web components are said to be the [King of all polyfilling challenges](http://developer.telerik.com/featured/web-components-arent-ready-production-yet/) and this is why Polymer requires such a large amount of code.
@@ -197,5 +201,4 @@ Web components are said to be the [King of all polyfilling challenges](http://de
 
 Polymer is based on experimental technology. Native Web Component support is not present in Safari or IE. IE status is "under consideration" and Safari plans are uncertain. Some WebKit [commits](https://lists.webkit.org/pipermail/webkit-dev/2013-May/024894.html) hint that they plan not to support it at all. And Polymer is only capable of polyfilling the _latest versions_ of “evergreen”  browsers (IE 10+).
 
-Polymer project is over [2 years old](https://github.com/Polymer/polymer/commit/0452ada044a6fc5818902e685fb07bb4678b2bc2) and it hasn't gain any significant adoption. It's  uncertain whether Web Components will ever be natively supported.
-
+Polymer project is over [2 years old](https://github.com/Polymer/polymer/commit/0452ada044a6fc5818902e685fb07bb4678b2bc2) and it hasn't gained any significant adoption. It's  uncertain whether Web Components will ever be natively supported.

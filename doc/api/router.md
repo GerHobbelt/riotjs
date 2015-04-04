@@ -10,7 +10,7 @@ Riot router is the most minimal router implementation you can find and it works 
 The Riot router is best in routing schemes in which the route's hierarchical parts, after the "#", are separated with the "/" character. In that case Riot gives you direct access to these parts.
 
 
-### riot.route(callback) | #riot-route
+### riot.route(callback) | #route
 
 Execute the given `callback` when the URL hash changes. For example
 
@@ -20,12 +20,13 @@ riot.route(function(collection, id, action) {
 })
 ```
 
-If for example the hash changes to `#customers/987987/edit` then on the above example the arguments would be:
+If for example the hash changes to `#customers/987987/edit` then in the above example the arguments would be:
+
 
 ``` js
 collection = 'customers'
-id = 'edit'
-action = '987987'
+id = '987987'
+action = 'edit'
 ```
 
 The hash can change in the following ways:
@@ -35,7 +36,7 @@ The hash can change in the following ways:
 3. When `riot.route(to)` is called
 
 
-### riot.route(to) | #riot-route-to
+### riot.route(to) | #route-to
 
 Changes the browser URL and notifies all the listeners assigned with `riot.route(callback)`. For example:
 
@@ -43,12 +44,51 @@ Changes the browser URL and notifies all the listeners assigned with `riot.route
 riot.route('customers/267393/edit')
 ```
 
-### riot.route.exec() | #riot-route-exec
+### riot.route.exec(callback) | #route-exec
 
-Study the current hash "in place" without waiting for it to change. For example
+Study the current hash "in place" using given `callback` without waiting for it to change. For example
 
 ``` js
 riot.route.exec(function(collection, id, action) {
+
+})
+```
+
+### riot.route.parser(parser) | #route-parser
+
+Changes the default parser to a custom one. Here's one that parses paths like this:
+
+`!/user/activation?token=xyz`
+
+``` js
+riot.route.parser(function(path) {
+  var raw = path.slice(2).split('?'),
+      uri = raw[0].split('/'),
+      qs = raw[1],
+      params = {}
+
+  if (qs) {
+    qs.split('&').forEach(function(v) {
+      var c = v.split('=')
+      params[c[0]] = c[1]
+    })
+  }
+
+  uri.push(params)
+  return uri
+})
+```
+
+And here you'll receive the params when the URL changes:
+
+```
+riot.route(function(target, action, params) {
+
+  /*
+    target = 'user'
+    action = 'activation'
+    params = { token: 'xyz' }
+  */
 
 })
 ```

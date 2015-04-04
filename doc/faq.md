@@ -1,5 +1,6 @@
 
-title: FAQ
+title: Riot FAQ
+subtitle: FAQ
 description: none
 
 ====
@@ -16,7 +17,7 @@ Because it's widely used. According to [Net Market Share](http://www.netmarketsh
 Net Market Share stats count every user equally, while StatCounter gives extra weight to heavy web users.
 
 ### Is Riot free?
-Riot is free, open source and licensed under the MIT License.
+Riot is free, open source and licensed under the MIT License. Free from [Additional Grant of Patent Rights](https://github.com/facebook/react/blob/master/PATENTS).
 
 
 ### Can I use Riot in production?
@@ -24,11 +25,11 @@ We think so. We do that extensively under muut.com website: on registrations, fo
 
 
 ### Should I use dash on the tag name?
-W3C specification demands you to use a dash on the tag name. Instead of `<person>` you must write `<my-person>`. Obey this rule if you care about W3C. Both work fine.
+W3C specification demands you use a dash in the tag name. Instead of `<person>` you must write `<my-person>`. Obey this rule if you care about W3C. Both work fine.
 
 
-### Why there are no semicolons on the source code?
-Leaving out semicolons makes the code less crowded. This is aligned with our general minimalistic approach. We use single quotes for the same reason. If you contribute to Riot, please leave out  semicolons and double quotes.
+### Why are there no semicolons in the source code?
+Leaving out semicolons makes the code less crowded. This is aligned with our general minimalistic approach. We use single quotes for the same reason. If you contribute to Riot, please leave out semicolons and double quotes.
 
 ### Why the use of evil `==` operator?
 The equality operator is good when you know how it works. We do this for example:
@@ -38,8 +39,8 @@ The equality operator is good when you know how it works. We do this for example
 This causes `0` and `false` to be printed but `null` and `undefined` are printed as an empty string. Exactly what we want!
 
 
-### Can I use `<style>` tags on a .tag file?
-Yes. You can use CSS normally inside a tag. Web component standard also has a mechanism of encapsulating CSS. However it's unlikely that this improves the overall manageability of your CSS code.
+### Can I use `style` tags in a .tag file?
+Yes. You can use CSS normally inside a tag. The web component standard also has a mechanism of encapsulating of CSS. However, it's unlikely that this improves the overall manageability of your CSS.
 
 
 ### What's the role of jQuery?
@@ -53,8 +54,8 @@ It's not evil, it only looks bad. To have JS and HTML under the same module is m
 
 Yes:
 
-1. Browser based compilation
-2. Server side HTML generation and "isomorphic" applications
-3. Bigger test suite with server side tests
+1. Server side HTML generation and "isomorphic" applications
+2. Full modules with CSS support
+3. Plugin system
 4. Tag option validation using HTML attributes
 

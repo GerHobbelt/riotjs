@@ -1,13 +1,14 @@
 
+<inner-content>
+  var p = this.parent.root
+
+  while (p.firstChild) {
+    if (this.root == p.firstChild) return
+    this.root.appendChild(p.firstChild)
+  }
+</inner-content>
+
 <inner-html>
-
-  <h3>Tag title</h3>
-
-  var h3 = this.root.firstChild,
-      self = this
-
-  self.on('mount', function() {
-    self.root.appendChild(h3)
-  })
-
+  <h1>Hello,</h1>
+  <inner-content/>
 </inner-html>

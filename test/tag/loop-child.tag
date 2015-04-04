@@ -1,7 +1,7 @@
 
 <loop-child>
 
-  <looped-child name={ name } each={ items }></looped-child>
+  <looped-child el={ this } each={ items }></looped-child>
 
   this.items = [ {name: 'one'}, {name: 'two'} ]
 
@@ -10,7 +10,8 @@
 
 <looped-child>
 
-  <button onclick={ hit }>{ opts.name }</button>
+  <h3>{ opts.el.name }</h3>
+  <button onclick={ hit }>{ opts.el.name }</button>
 
   hit(e) {
     console.info(e.target)

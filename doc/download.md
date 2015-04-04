@@ -1,83 +1,108 @@
 
-title: Download
+title: Get Riot
 description: none
+minify: false
+
+base: https://raw.githubusercontent.com/muut/riotjs/master
+cdnjs: https://cdnjs.cloudflare.com/ajax/libs/riot
 
 ====
 
-## NPM
-
-``` sh
-npm install riot -g
-```
-
-### Compiler
-
-Riot compiler transforms `.tag` files to `.js` for browsers. For example:
-
-``` sh
-riot --watch my/custom.tag
-```
-
-This detects changes on the .tag file and generates a .js files automatically. See [compiler guide](/riotjs/guide/#compiler) or run `riot --help` for more information.
+##### [<span class="tag">v{{ riot_version }}</span> release notes](release-notes.html) | .tall
 
 
-## Git
+### Direct download
 
-<span class="tag">URL</span> https://github.com/muut/riotjs
+[riot.min.js]({{ base }}/riot.min.js)
 
-Please clone the repository and run the demo locally.
+[riot.js]({{ base }}/riot.js)
 
-``` sh
-git clone git@github.com:muut/riotjs.git
-cd riotjs
-open demo/index.html
-make watch
-```
+[compiler.min.js]({{ base }}/compiler.min.js)
 
-You can now edit `demo/todo.tag` file and the compiler automatically watch for changes and transforms it to .js file.
+[compiler.js]({{ base }}/compiler.js)
+
+[riot+compiler.min.js]({{ base }}/riot+compiler.min.js)
+
+[riot+compiler.js]({{ base }}/riot+compiler.js)
 
 
-## Direct download
+### Content delivery networks
 
-[riot.min.js](/riotjs/dist/riot-{{ riot_version }}.min.js) – For production. 5.5K minified / 2.5K gzipped
 
-[riot.js](/riotjs/dist/riot-{{ riot_version }}.js) – For development
+#### [jsdelivr](http://www.jsdelivr.com/#!riot)
 
-[demo.zip](/riotjs/dist/riot-{{ riot_version }}.zip) - Working demo with unminified version
+`https://cdn.jsdelivr.net/g/riot@2.0(riot.min.js+compiler.min.js)` <small>(latest 2.0.X)</small>
 
-[live demo](/riotjs/dist/demo/)
+`https://cdn.jsdelivr.net/riot/2.0/riot.min.js` <small>(latest 2.0.X)</small>
+
+`https://cdn.jsdelivr.net/g/riot@{{ riot_version }}(riot.min.js+compiler.min.js)`
+
+`https://cdn.jsdelivr.net/riot/{{ riot_version }}/riot.min.js`
+
+
+#### [cdnjs](https://cdnjs.com/libraries/riot)
+
+<small>
+  <span class="tag red">note</span> v{{ riot_version }} was released on *{{ datetime }}*
+  and CDNJS takes around 30 hours to update.
+</small>
+
+`{{ cdnjs }}/{{ riot_version }}/riot+compiler.min.js`
+
+`{{ cdnjs }}/{{ riot_version }}/riot.min.js`
+
+
+
+### Package managers
+
+#### [Bower](http://bower.io/search/?q=riot.js)
+
+`bower install riot`
+
+#### [Component](http://component.github.io/?q=riot)
+
+`component install muut/riotjs`
+
+#### [NPM](https://www.npmjs.com/package/riot)
+
+`npm install riot`
+
+
+### GitHub
+
+#### [muut/riotjs](https://github.com/muut/riotjs)
+
+`git clone git@github.com:muut/riotjs.git`
+
 
 
 ## IE8 support
 
-IE8 requires that both [es5-shim](https://github.com/es-shims/es5-shim) and [html5-shiv](https://github.com/aFarkas/html5shiv) are included on the `<head>` of your page and IE is configured to work with the latest rendering engine. Here's how you do it:
+For IE8 support you need to include [es5-shim](https://github.com/es-shims/es5-shim) and [html5-shiv](https://github.com/aFarkas/html5shiv) and tell it to use the latest rendering engine:
 
 ``` html
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
   <!--[if lt IE 9]>
-    <script src="es5-shim.js"></script>
-    <script src="html5-shiv.js"></script>
-    &lt;script>html5.addElements('test')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.5/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script>html5.addElements('test')</script>
   <![endif]-->
 </head>
 ```
 
-You must tell IE8 what custom tags are being used on the page with `html5.addElements`. For example
+Also let it know about all your custom tags before using them on a page:
 
 ``` html
-&lt;script>html5.addElements('todo todo-item account plan')</script>
+<script>html5.addElements('my-tag my-another-tag')</script>
 ```
 
 That's a space separated list of tag names.
 
-See a [live demo](/riotjs/dist/demo/) or download the [demo.zip](/riotjs/dist/riot-{{ riot_version }}.zip).
-
 
 ## Known issues
 
-On current version conditionals are implemented with `style="display: none"`. This will be fixed on upcoming version where `if` attribute will add/remove the element from the DOM completely.
+- Looping table rows or cells with `each` attribute is not working on IE8 and IE9.
 
 
 ## Media

@@ -1,35 +1,52 @@
 
-VERSION=`node -pe "require('./package.json').version"`
-DIST=../www/pages/riotjs/dist
+DIST = "dist/riot/"
 
-jshint:
-	./node_modules/jshint/bin/jshint lib/*.js
+WATCH = "\
+	var arg = process.argv, path = arg[1], cmd = arg[2];  \
+	require('chokidar') 																  \
+		.watch(path, { ignoreInitial: true }) 						  \
+		.on('all', function() { 													  \
+			require('shelljs').exec(cmd) 										  \
+		})"
 
-riot:
-	@ mkdir -p dist
-	@ cat license.js | sed "s/VERSION/$(VERSION)/" > dist/riot.js
-	@ echo "var riot = { version: 'v$(VERSION)' } ; 'use strict';" >> dist/riot.js
-	@ cat lib/* >> dist/riot.js
+test:
+	@ make eslint
+	# test the node compiler
+	@ RIOT=../dist/riot/riot.js ./node_modules/.bin/mocha test/runner.js -R spec
+	# test riot
+	@ ./node_modules/karma/bin/karma start test/karma.conf.js
+
+
+eslint:
+	# check code style
+	@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib test
+
+raw:
+	@ mkdir -p $(DIST)
+	@ cat lib/compiler.js > $(DIST)compiler.js
+	@ cat lib/wrap/prefix.js > $(DIST)riot.js
+	@ cat lib/observable.js lib/router.js lib/tmpl.js lib/tag/*.js >> $(DIST)riot.js
+	@ cat $(DIST)riot.js $(DIST)compiler.js > $(DIST)riot+compiler.js
+	@ cat lib/wrap/suffix.js | tee -a $(DIST)riot.js $(DIST)riot+compiler.js > /dev/null
+
+riot: raw test
 
 min: riot
-	@./node_modules/uglify-js/bin/uglifyjs dist/riot.js --comments --mangle -o dist/riot.min.js
-	@echo minified
+	# minify riot
+	@ for f in riot compiler riot+compiler; do ./node_modules/uglify-js/bin/uglifyjs $(DIST)$$f.js --comments --mangle -o $(DIST)$$f.min.js; done
 
-demo:
-	@mkdir -p demo/js
-	@cp dist/riot.js demo/js
-	@cp test/ie8/* demo/js
+perf: riot
+	# run the performance tests
+	@ node --harmony --expose-gc test/performance/mem
 
-dist: min demo
-	@mkdir -p $(DIST)
-	@rm -rf $(DIST)/*
-	@cp dist/riot.js "$(DIST)/riot-$(VERSION).js"
-	@cp dist/riot.min.js "$(DIST)/riot-$(VERSION).min.js"
-	@zip -r "$(DIST)/riot-$(VERSION).zip" demo
-	@cp -r demo $(DIST)
-	ls $(DIST)
+watch:
+	# watch and rebuild riot and its tests
+	@ $(shell \
+		node -e $(WATCH) "lib/**/*.js" "make raw" & \
+		export RIOT="../dist/riot/riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
-watch: demo
-	@./compiler/make.js --watch demo
+.PHONY: test min
 
-.PHONY: test dist demo
+
+# riot maintainer tasks
+-include ../riot-tasks/Makefile
