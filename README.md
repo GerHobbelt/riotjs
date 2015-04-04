@@ -1,9 +1,8 @@
-
-![This is a RIOT!](https://muut.com/m/img/riotjs/riot.png)
+![This is a RIOT!](https://muut.com/m/img/riotjs/riot-1.png)
 
 ### The 1kb client side MVP library
 
-Riot is an incredibly fast, powerful yet tiny client side library for building large scale web applications. Despite the small size all the building blocks are there: a template engine, router, event library and a strict MVP pattern to keep things organized. On a finished application your views are automatically updated when the underlying model changes.
+Riot is an incredibly fast, powerful yet tiny client side (MV*) library for building large scale web applications. Despite the small size all the building blocks are there: a template engine, router, event library and a strict MVP pattern to keep things organized. On a finished application your views are automatically updated when the underlying model changes.
 
 Current frameworks base their existence on following assumptions:
 
@@ -17,7 +16,12 @@ Riot will [teach you](https://muut.com/riotjs/docs/) that none of the above is t
 
 ---
 
+<small>
 [Official website](https://muut.com/riotjs/) &bull;
 [Demo application](https://muut.com/riotjs/demo/) &bull;
+[Demo](https://muut.com/riotjs/demo/) &bull;
+[Todo MVC](http://www.3den.org/riotjs-todomvc/) &bull;
 [Original blog post](https://muut.com/blog/technology/riotjs-the-1kb-mvp-framework.html) &bull;
-[Frameworkless JavaScript](https://muut.com/blog/technology/frameworkless-javascript.html)
+[Frameworkless JavaScript](https://muut.com/blog/technology/frameworkless-javascript.html) &bull;
+[CDN Support](http://osscdn.com/#/riotjs)
+</small>

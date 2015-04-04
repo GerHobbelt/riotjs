@@ -1,4 +1,4 @@
-/* Riot 1.0.0, @license MIT, (c) 2014 Muut Inc + contributors */
+/* Riot 1.0.1, @license MIT, (c) 2014 Muut Inc + contributors */
 (function(riot) { "use strict";
 
 riot.observable = function(el) {
@@ -14,11 +14,18 @@ riot.observable = function(el) {
     return el;
   };
 
-  el.off = function(events) {
-    events.replace(/[^\s]+/g, function(name) {
-      callbacks[name] = [];
-    });
+  el.off = function(events, fn) {
     if (events == "*") callbacks = {};
+    else if (fn) {
+      var arr = callbacks[events];
+      for (var i = 0, cb; (cb = arr && arr[i]); ++i) {
+        if (cb === fn) arr.splice(i, 1);
+      }
+    } else {
+      events.replace(/[^\s]+/g, function(name) {
+        callbacks[name] = [];
+      });
+    }
     return el;
   };
 
@@ -62,13 +69,11 @@ riot.render = function(tmpl, data, escape_fn) {
   if (escape_fn === true) escape_fn = default_escape_fn;
   tmpl = tmpl || '';
 
-  return (FN[tmpl] = FN[tmpl] || new Function("_", "e", "try { return '" +
+  return (FN[tmpl] = FN[tmpl] || new Function("_", "e", "return '" +
     tmpl.replace(/[\\\n\r']/g, function(char) {
       return template_escape[char];
 
-    }).replace(/{\s*([\w\.]+)\s*}/g, "' + (e?e(_.$1,'$1'):_.$1||(_.$1==undefined?'':_.$1)) + '")
-      + "' } catch(e) { return '' }"
-    )
+    }).replace(/{\s*([\w\.]+)\s*}/g, "' + (e?e(_.$1,'$1'):_.$1||(_.$1==undefined?'':_.$1)) + '") + "'")
 
   )(data, escape_fn);
 
