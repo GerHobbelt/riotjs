@@ -826,4 +826,4 @@ And here we mount the application
 
 On the above setup the other tags on the system do not need to know about each other since they can simply listen to the "login" event and do what they please.
 
-Observable is a classic building block for a decoupled (modular) appliction.
+Observable is a classic building block for a decoupled (modular) application.
