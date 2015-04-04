@@ -9,6 +9,8 @@ WATCH = "\
 			require('shelljs').exec(cmd) 										  \
 		})"
 
+all: min
+
 test-runner:
 	RIOT=../dist/riot/riot.js ./node_modules/.bin/mocha test/runner.js -R spec
 
@@ -29,7 +31,7 @@ raw:
 
 riot: raw test
 
-min: riot
+min: raw
 	# minify riot
 	@ for f in riot compiler riot+compiler; do ./node_modules/uglify-js/bin/uglifyjs $(DIST)$$f.js --comments --mangle -o $(DIST)$$f.min.js; done
 
@@ -43,7 +45,7 @@ watch:
 		node -e $(WATCH) "lib/**/*.js" "make raw" & \
 		export RIOT="../dist/riot/riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
-.PHONY: test min
+.PHONY: test min test-runner eslint raw riot perf watch all
 
 
 # riot maintainer tasks
