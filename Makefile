@@ -11,6 +11,12 @@ WATCH = "\
 
 all: min
 
+clean:
+	@ rm $(DIST)compiler.js
+	@ rm $(DIST)riot.js
+	@ rm $(DIST)riot+compiler.js
+	@ rm $(DIST)*.min.js
+
 lint: eslint
 
 test-runner:
@@ -47,7 +53,7 @@ watch:
 		node -e $(WATCH) "lib/**/*.js" "make raw" & \
 		export RIOT="../dist/riot/riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
-.PHONY: test min test-runner eslint lint raw riot perf watch all
+.PHONY: test min test-runner eslint lint raw riot perf watch all clean
 
 
 # riot maintainer tasks
