@@ -11,6 +11,8 @@ WATCH = "\
 
 all: min
 
+lint: eslint
+
 test-runner:
 	RIOT=../dist/riot/riot.js ./node_modules/.bin/mocha test/runner.js -R spec
 
@@ -45,7 +47,7 @@ watch:
 		node -e $(WATCH) "lib/**/*.js" "make raw" & \
 		export RIOT="../dist/riot/riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
-.PHONY: test min test-runner eslint raw riot perf watch all
+.PHONY: test min test-runner eslint lint raw riot perf watch all
 
 
 # riot maintainer tasks
