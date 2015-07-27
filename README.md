@@ -6,6 +6,7 @@
 [![Build Status][travis-image]][travis-url]
 [![NPM version][npm-version-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
+[![Riot Forum][riot-forum-image]][riot-forum-url]
 
 [![MIT License][license-image]][license-url]
 
@@ -95,6 +96,7 @@ HTML syntax is the de facto language on the web and it's designed for building u
 - [Flux- like event controller for Riot](https://github.com/jimsparkman/RiotControl)
 - [Another flux demo caparable to React ones](http://txchen.github.io/feplay/riot_flux)
 - [Various experiments](http://richardbondi.net/programming/riot)
+- [Isomorphic application](https://github.com/ListnPlay/riot-isomorphic)
 
 ### Tutorials
 - [Building Apps with Riot, ES6 and Webpack](http://blog.srackham.com/posts/riot-es6-webpack-apps/)
@@ -105,6 +107,7 @@ HTML syntax is the de facto language on the web and it's designed for building u
 - [Another React tutorial with Riot](https://github.com/viliamjr/commentsTuto)
 - [Riot Custom Tag by Example](http://www.triplet.fi/blog/riot-custom-tag-by-example/)
 - [Riot Compiler Explained](http://www.triplet.fi/blog/riot-compiler-explained/)
+- [Adding compiled Riot tags to your Gulp + Browserify build](http://www.triplet.fi/blog/adding_compiled_riot_tags_to_your_gulp_browserify_build/)
 
 ### Resources
 - [Riot + Angular](https://github.com/lucasbrigida/angular-riot)
@@ -126,3 +129,6 @@ https://muut.com/riotjs/
 [npm-url]: https://npmjs.org/package/riot
 [npm-version-image]: http://img.shields.io/npm/v/riot.svg?style=flat-square
 [npm-downloads-image]: http://img.shields.io/npm/dm/riot.svg?style=flat-square
+
+[riot-forum-url]: https://muut.com/riotjs/forum/
+[riot-forum-image]: doc/logo/join-chat.svg
