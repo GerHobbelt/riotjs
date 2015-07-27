@@ -190,7 +190,7 @@ var tmpl = (function() {
 
   var cache = {},
       re_vars = /(['"\/]).*?[^\\]\1|\.\w*|\w*:|\b(?:(?:new|typeof|in|instanceof) |(?:this|true|false|null|undefined)\b|function *\()|([a-z_$]\w*)/gi
-              // [ 1               ][ 2  ][ 3 ][ 4                                                                                  ][ 5       ]
+              // [ 1               ][ 2  ][ 3 ][ 4                                                                                  ][ 5        ]
               // find variable names:
               // 1. skip quoted strings and regexps: "a b", 'a b', 'a \'b\'', /a b/
               // 2. skip object properties: .name

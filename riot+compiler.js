@@ -190,7 +190,7 @@ var tmpl = (function() {
 
   var cache = {},
       re_vars = /(['"\/]).*?[^\\]\1|\.\w*|\w*:|\b(?:(?:new|typeof|in|instanceof) |(?:this|true|false|null|undefined)\b|function *\()|([a-z_$]\w*)/gi
-              // [ 1               ][ 2  ][ 3 ][ 4                                                                                  ][ 5       ]
+              // [ 1               ][ 2  ][ 3 ][ 4                                                                                  ][ 5        ]
               // find variable names:
               // 1. skip quoted strings and regexps: "a b", 'a b', 'a \'b\'', /a b/
               // 2. skip object properties: .name
@@ -1019,6 +1019,13 @@ riot.mountTo = riot.mount
     ls: livescript
   }
 
+  var CSS_PARSERS = {
+    none: plaincss,
+    stylus: stylus,
+    sass: sass,
+    less: less
+  }
+
   var LINE_TAG = /^<([\w\-]+)>(.*)<\/\1>/gim,
       QUOTE = /=({[^}]+})([\s\/\>])/g,
       SET_ATTR = /([\w\-]+)=(["'])([^\2]+?)\2/g,
@@ -1026,7 +1033,7 @@ riot.mountTo = riot.mount
       // (tagname) (html) (javascript) endtag
       CUSTOM_TAG = /^<([\w\-]+)>([^\x00]*[\w\/}"']>$)?([^\x00]*?)^<\/\1>/gim,
       SCRIPT = /<script(\s+type=['"]?([^>'"]+)['"]?)?>([^\x00]*?)<\/script>/gm,
-      STYLE = /<style(\s+type=['"]?([^>'"]+)['"]?|\s+scoped)?>([^\x00]*?)<\/style>/gm,
+      STYLE = /<style(?:\s+type=['"]?([^>'"]+)['"]?)?(\s+scoped)?>([^\x00]*?)<\/style>/gm,
       CSS_SELECTOR = /(^|\}|\{)\s*([^\{\}]+)\s*(?=\{)/g,
       CSS_COMMENT = /\/\*[^\x00]*?\*\//gm,
       HTML_COMMENT = /<!--.*?-->/g,
@@ -1165,7 +1172,29 @@ riot.mountTo = riot.mount
 
   }
 
-  function scopedCSS (tag, style) {
+  function plaincss(css) {
+    return css
+  }
+
+  function stylus(css) {
+    return require('stylus').render(css)
+  }
+
+  function less(css) {
+    require('less').render(css, function(err, output) {
+      if (err) throw new Error('Error processing LESS: ' +
+                  err.line + ':' + err.index + ' "' + err.message + '"')
+      css = output.css
+    })
+
+    return css
+  }
+
+  function sass(css) {
+    return require('node-sass').renderSync({ data: css }).css
+  }
+
+  function scopedCSS(tag, style) {
     return style.replace(CSS_COMMENT, '').replace(CSS_SELECTOR, function (m, p1, p2) {
       return p1 + ' ' + p2.split(/\s*,\s*/g).map(function(sel) {
         return sel[0] == '@' ? sel : tag + ' ' + sel.replace(/:scope\s*/, '')
@@ -1185,8 +1214,10 @@ riot.mountTo = riot.mount
     return parser(html)
   }
 
-  function compileCSS(style, tag, type) {
-    if (type == 'scoped-css') style = scopedCSS(tag, style)
+  function compileCSS(style, opts, tag, type, scoped) {
+    var parser = CSS_PARSERS[type] || plaincss
+    style = parser(style)
+    if (scoped) style = scopedCSS(tag, style)
     return style.replace(/\s+/g, ' ').replace(/\\/g, '\\\\').replace(/'/g, "\\'").trim()
   }
 
@@ -1218,7 +1249,7 @@ riot.mountTo = riot.mount
       var type = opts.type
 
       if (!js.trim()) {
-        html = html.replace(SCRIPT, function(_, fullType, _type, script) {
+        html = html.replace(SCRIPT, function(_, _type, script) {
           if (_type) type = _type.replace('text/', '')
           js = script
           return ''
@@ -1226,12 +1257,14 @@ riot.mountTo = riot.mount
       }
 
       // styles in <style> tag
-      var styleType = 'css',
-          style = ''
+      var styleType = opts.styletype,
+          style = '',
+          styleScoped = false
 
-      html = html.replace(STYLE, function(_, fullType, _type, _style) {
-        if (fullType && 'scoped' == fullType.trim()) styleType = 'scoped-css'
-          else if (_type) styleType = _type.replace('text/', '')
+
+      html = html.replace(STYLE, function(_, _type, _scoped, _style) {
+        styleScoped = !!_scoped
+        if (_type) styleType = _type.replace('text/', '')
         style = _style
         return ''
       })
@@ -1239,7 +1272,7 @@ riot.mountTo = riot.mount
       return mktag(
         tagName,
         compileHTML(html, opts, type),
-        compileCSS(style, tagName, styleType),
+        compileCSS(style, opts, tagName, styleType, styleScoped),
         compileJS(js, opts, type)
       )
 

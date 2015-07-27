@@ -12,22 +12,22 @@ WATCH = "\
 all: min
 
 clean:
-	@ rm $(DIST)compiler.js
-	@ rm $(DIST)riot.js
-	@ rm $(DIST)riot+compiler.js
-	@ rm $(DIST)*.min.js
+	-@ rm $(DIST)compiler.js
+	-@ rm $(DIST)riot.js
+	-@ rm $(DIST)riot+compiler.js
+	-@ rm $(DIST)*.min.js
 
 lint: eslint
 
 test-runner:
-	RIOT=../dist/riot/riot.js ./node_modules/.bin/mocha test/runner.js -R spec
+	RIOT=../$(DIST)riot.js ./node_modules/.bin/mocha test/runner.js -R spec
 
-test: eslint test-runner
+test: lint test-runner
 	@ ./node_modules/karma/bin/karma start test/karma.conf.js
 
 eslint:
 	# check code style
-	@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib test
+	-@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib test
 
 raw:
 	@ mkdir -p $(DIST)
@@ -51,7 +51,7 @@ watch:
 	# watch and rebuild riot and its tests
 	@ $(shell \
 		node -e $(WATCH) "lib/**/*.js" "make raw" & \
-		export RIOT="../dist/riot/riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
+		export RIOT="../$(DIST)riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
 .PHONY: test min test-runner eslint lint raw riot perf watch all clean
 
