@@ -9,7 +9,7 @@ WATCH = "\
 			require('shelljs').exec(cmd) 										  \
 		})"
 
-all: min
+all: to_root
 
 clean:
 	-@ rm $(DIST)compiler.js
@@ -30,6 +30,7 @@ eslint:
 	-@ ./node_modules/eslint/bin/eslint.js -c ./.eslintrc lib test
 
 raw:
+	# compile riot to dist/
 	@ mkdir -p $(DIST)
 	@ cat lib/compiler.js > $(DIST)compiler.js
 	@ cat lib/wrap/prefix.js > $(DIST)riot.js
@@ -43,6 +44,10 @@ min: raw
 	# minify riot
 	@ for f in riot compiler riot+compiler; do ./node_modules/uglify-js/bin/uglifyjs $(DIST)$$f.js --comments --mangle -o $(DIST)$$f.min.js; done
 
+to_root: min
+	# copy dist/ to root
+	@ for f in riot compiler riot+compiler; do cp $(DIST)$$f.js $(DIST)$$f.min.js ./ ; done
+
 perf: riot
 	# run the performance tests
 	@ node --harmony --expose-gc test/performance/mem
@@ -53,7 +58,7 @@ watch:
 		node -e $(WATCH) "lib/**/*.js" "make raw" & \
 		export RIOT="../$(DIST)riot" && node ./lib/cli.js --watch test/tag dist/tags.js)
 
-.PHONY: test min test-runner eslint lint raw riot perf watch all clean
+.PHONY: to_root test min test-runner eslint lint raw riot perf watch all clean
 
 
 # riot maintainer tasks
