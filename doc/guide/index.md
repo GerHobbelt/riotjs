@@ -64,7 +64,7 @@ See the [live demo](http://muut.github.io/riotjs/demo/), browse the [sources](ht
 
 A Riot tag is a combination of layout (HTML) and logic (JavaScript). Here are the basic rules:
 
-* HTML is defined first and the logic is enclosed inside an optional `<script>` tag.
+* HTML is defined first and the logic is enclosed inside an optional `<script>` tag. *note: the script tag can not be used when including tag definitions in the document body, only in external tag files*
 * Without the `<script>` tag the JavaScript starts where the last HTML tag ends.
 * Custom tags can be empty, HTML only or JavaScript only
 * Quotes are optional: `<foo bar={ baz }>` becomes `<foo bar="{ baz }">`.
@@ -78,7 +78,7 @@ A Riot tag is a combination of layout (HTML) and logic (JavaScript). Here are th
 
 
 
-Tag definition always starts on the beginning of the line:
+Tag definition in tag files always starts on the beginning of the line:
 
 ```
 <!-- works -->
@@ -94,6 +94,8 @@ Tag definition always starts on the beginning of the line:
 
   </my-tag>
 ```
+
+Inline tag definitions(in document body) must be properly indented, with all custom tags equally indented at the lowest indent level, mixing of tabs and spaces is discouraged.
 
 ### No script tag
 
@@ -508,6 +510,40 @@ Here is the `inner-html` source code:
 The above tag will be part of Riot "core tags" to be introduced later.
 
 
+## HTML transclusion
+
+Transclusion is a way to process the inner HTML on the page. This is achieved with a build-in `<yield>` tag. Example:
+
+
+### Tag definition
+
+```html
+<my-tag>
+  <p>Hello <yield/></p>
+  this.text = 'world'
+</my-tag>
+```
+
+### Usage
+
+Custom tag is placed on a page with nested HTML
+
+```html
+<my-tag>
+  <b>{ text }</b>
+</my-tag>
+```
+
+### Result
+
+```html
+<my-tag>
+  <p>Hello <b>world</b><p>
+</my-tag>
+```
+
+See [API docs](/riotjs/api/#yield) for `yield`.
+
 ## Named elements
 
 Elements with `name` or `id` attribute are automatically bound to the context so you'll have an easy access to them with JavaScript:
@@ -722,6 +758,22 @@ Plain objects can also be looped. For example:
 
 Object loops are not recommended since internally Riot detects changes on the object with `JSON.stringify`. The *whole* object is studied and when there is a change the whole loop is re-rendered. This can be slow. Normal arrays are much faster and only the changes are drawn on the page.
 
+
+## Standard HTML Elements as tags | #riot-tag
+
+Standard HTML elements can be used as riot tags in the page body with the addition of the `riot-tag` attribute.
+
+```
+<ul riot-tag="my-tag"></ul>
+```
+
+This provides users with an alternative that can provide greater compatibility with css frameworks.  The tags are treated like any other custom tag.
+
+```
+riot.mount('my-tag')
+```
+
+will mount the `ul` element shown above as if it were `<my-tag></my-tag>`
 
 ## Server-side rendering | #server-side
 

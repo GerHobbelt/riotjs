@@ -35,6 +35,24 @@ The hash can change in the following ways:
 2. When the back/forward buttons are pressed
 3. When `riot.route(to)` is called
 
+### riot.route.start() | #route-start
+
+Start listening the window hash changes and it's automatically called when riot gets loaded. You typically use this method together with [route.stop](#route-stop). Example:
+
+``` js
+riot.route.stop() // clear all the old riot.route callbacks
+riot.route.start() // start again
+```
+
+### riot.route.stop() | #route-stop
+
+Remove the hashchange listeners clearing also the [route.route](#route) callbacks.
+
+``` js
+riot.route.stop()
+```
+
+Stopping the default router allow the use of a different router on your appliaction.
 
 ### riot.route(to) | #route-to
 
